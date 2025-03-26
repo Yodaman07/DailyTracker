@@ -19,7 +19,15 @@ struct Settings: View {
                         .padding(100)
                 }else{
                     List($dailyActivities){ $data in
-                        TextField("Rename Activity", text: $data.activity)
+                        HStack{
+                            TextField("Rename Activity", text: $data.activity)
+                            Toggle(isOn: $data.goal){Text("Has Goal")}
+                            if ($data.goal.wrappedValue){
+                                TextField("Value", value: $data.goalValue, formatter: NumberFormatter())
+                                
+                                TextField("Units", text: $data.goalUnits)
+                            }
+                        }
                     }
                 }
                 
@@ -31,7 +39,7 @@ struct Settings: View {
             
         }.toolbar{
             Button("+"){
-                dailyActivities.append(DailyItem(activity: "New Activity"))
+                dailyActivities.append(DailyItem(activity: "New Activity", goal: false))
             } .padding(10)
             
         }
@@ -41,7 +49,11 @@ struct Settings: View {
 struct DailyItem: Identifiable {
     var id = UUID()
 //    var icon: String //system icon
+//https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI
     var activity: String
+    var goal: Bool
+    var goalValue: Int = 0
+    var goalUnits: String = ""
 }
 
 #Preview {
