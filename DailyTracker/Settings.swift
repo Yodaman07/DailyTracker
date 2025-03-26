@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct Settings: View {
-    @State var dailyActivities: [DailyItem] = []
+    @State var dailyActivities: [DailyItem] = LoadPreferences()
     
     var body: some View {
         NavigationStack{
         
             VStack{
                 if (dailyActivities.isEmpty){
-                    Text("Add you Daily Routines Here")
+                    Text("Add Your Daily Activities Here")
                         .padding(100)
                 }else{
                     List($dailyActivities){ $data in
@@ -32,7 +32,8 @@ struct Settings: View {
                 }
                 
                 Button("Save"){
-                    print("Write Data to JSON FILE")
+                    SavePreferences(data: dailyActivities)
+                    print("Write Data to JSON FILE!")
                 }.padding(10)
             }
             
@@ -42,18 +43,50 @@ struct Settings: View {
                 dailyActivities.append(DailyItem(activity: "New Activity", goal: false))
             } .padding(10)
             
-        }
+        }.onAppear{dailyActivities = LoadPreferences()}
     }
 }
 
-struct DailyItem: Identifiable {
+struct ListView: View{
+    @State var pref : [DailyItem] = LoadPreferences();
+    var body: some View {
+        VStack{
+            List($pref){ $data in
+                Text($data.activity.wrappedValue)
+            }
+        }.onAppear{pref = LoadPreferences()} //load preferences every time view is loaded
+    }
+}
+
+func SavePreferences(data: [DailyItem]){
+    let enc = JSONEncoder()
+    enc.outputFormatting = .prettyPrinted
+    let data = try! enc.encode(data)
+    print(String(data: data, encoding: .utf8)!)
+    let jsonURL = URL.documentsDirectory.appendingPathComponent("Preferences.json")
+    
+    try! data.write(to: jsonURL)
+}
+
+func LoadPreferences() -> [DailyItem] {
+    let dec = JSONDecoder()
+    let jsonURL = URL.documentsDirectory.appendingPathComponent("Preferences.json")
+    let d = try! Data(contentsOf: jsonURL)
+    print("Loading")
+    return try! dec.decode(Array<DailyItem>.self, from: d)
+}
+
+struct DailyItem: Identifiable, Codable {
     var id = UUID()
-//    var icon: String //system icon
+//  var icon: String //system icon
 //https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI
     var activity: String
     var goal: Bool
     var goalValue: Int = 0
     var goalUnits: String = ""
+    
+    
+    var complete: Bool = false
 }
 
 #Preview {

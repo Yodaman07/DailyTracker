@@ -12,7 +12,8 @@ struct ContentView: View {
         
         NavigationSplitView {
             List{
-                NavigationLink("Today", destination: ListView())
+                NavigationLink("Today", destination: ListView())    
+                
                 NavigationLink("Past", destination: ListView())
                 Spacer()
                     .frame(height: 20)
@@ -38,11 +39,7 @@ struct ContentView: View {
     }
 }
 
-struct ListView: View{
-    var body: some View {
-        Text("HELLO WORLD")
-    }
-}
+
 
 #Preview {
     ContentView()
