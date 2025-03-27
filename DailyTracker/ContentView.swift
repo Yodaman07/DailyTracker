@@ -12,9 +12,9 @@ struct ContentView: View {
         
         NavigationSplitView {
             List{
-                NavigationLink("Today", destination: ListView())    
+                NavigationLink("Today", destination: Daily())
                 
-                NavigationLink("Past", destination: ListView())
+                NavigationLink("Past", destination: Daily())
                 Spacer()
                     .frame(height: 20)
                 NavigationLink("Settings", destination: Settings())
@@ -24,7 +24,7 @@ struct ContentView: View {
                 
                     
                 NavigationLink {
-                    ListView()
+                    Daily()
                 } label: {
                     Label("Account", systemImage: "person.circle")
                 }

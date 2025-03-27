@@ -32,14 +32,14 @@ struct Settings: View {
                                 action: {
                                     if let i = dailyActivities.firstIndex(of: data){
                                         dailyActivities.remove(at: i)
+                                    }else{
+                                        print("Something went wrong")
                                     }
                                 }
                             )
-                            {
-                                Text("Delete")
-                            }
+                            {Text("Delete")}
                             
-                        }
+                        }//End of context menu
                         
                         
                     }
@@ -64,16 +64,7 @@ struct Settings: View {
     }
 }
 
-struct ListView: View{
-    @State var pref : [DailyItem] = LoadPreferences();
-    var body: some View {
-        VStack{
-            List($pref){ $data in
-                Text($data.activity.wrappedValue)
-            }
-        }.onAppear{pref = LoadPreferences()} //load preferences every time view is loaded
-    }
-}
+
 
 func SavePreferences(data: [DailyItem]){
     let enc = JSONEncoder()
