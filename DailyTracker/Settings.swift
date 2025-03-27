@@ -18,7 +18,7 @@ struct Settings: View {
                     Text("Add Your Daily Activities Here")
                         .padding(100)
                 }else{
-                    List($dailyActivities){ $data in
+                    List($dailyActivities, editActions: .delete){ $data in
                         HStack{
                             TextField("Rename Activity", text: $data.activity)
                             Toggle(isOn: $data.goal){Text("Has Goal")}
@@ -27,8 +27,23 @@ struct Settings: View {
                                 
                                 TextField("Units", text: $data.goalUnits)
                             }
+                        }.contextMenu{
+                            Button(
+                                action: {
+                                    if let i = dailyActivities.firstIndex(of: data){
+                                        dailyActivities.remove(at: i)
+                                    }
+                                }
+                            )
+                            {
+                                Text("Delete")
+                            }
+                            
                         }
+                        
+                        
                     }
+                        
                 }
                 
                 Button("Save"){
@@ -42,6 +57,8 @@ struct Settings: View {
             Button("+"){
                 dailyActivities.append(DailyItem(activity: "New Activity", goal: false))
             } .padding(10)
+        
+
             
         }.onAppear{dailyActivities = LoadPreferences()}
     }
@@ -76,7 +93,7 @@ func LoadPreferences() -> [DailyItem] {
     return try! dec.decode(Array<DailyItem>.self, from: d)
 }
 
-struct DailyItem: Identifiable, Codable {
+struct DailyItem: Identifiable, Codable, Equatable {
     var id = UUID()
 //  var icon: String //system icon
 //https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI
