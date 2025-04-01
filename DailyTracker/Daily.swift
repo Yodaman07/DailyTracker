@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Daily: View {
-    @State var day : Day =  Day(date: Date.now, activities: [])
+    @State var day : Day =  Day(date: Date.now, activities: []) //just a temporary value
     var body: some View {
         //TODO Scrollable
         VStack{
@@ -19,6 +19,16 @@ struct Daily: View {
                         .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
                     
                     Spacer()
+                    if ($data.goal.wrappedValue){
+                        HStack{
+                            Text("Goal: ")
+                                .fontWeight(.bold)
+                            Text(String($data.goalValue.wrappedValue) + " " + $data.goalUnits.wrappedValue)
+                                .font(.callout)
+                        }
+                        Spacer()
+                    }
+                    
                     
                     Toggle(isOn: $data.complete){Text("Completed?")}
                         .padding(10)
@@ -30,9 +40,9 @@ struct Daily: View {
                     
             }
         }.onAppear{
-            var allDayData: [Day] = LoadData()
+            let allDayData: [Day] = LoadData()
 
-            var date = getFormattedDate()
+            let date = getFormattedDate()
             //Code to run if we have to add a new day
             if (!dayExists(days: allDayData, date: date)){
                 let dayData = Day(date: date, activities: LoadPreferences())
@@ -76,7 +86,7 @@ func SaveData(data: Day){ //saving data from scratch
     
     //Regardless of if the file exists or not, we want to write either just the one val or the updated list to the file
     let enc = JSONEncoder()
-    enc.outputFormatting = .prettyPrinted
+    enc.outputFormatting = [.prettyPrinted, .sortedKeys]
     let encodedData = try! enc.encode(dataToEncode)
     try! encodedData.write(to: jsonURL)
 }
