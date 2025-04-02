@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Daily: View {
-    @State var day : Day =  Day(date: Date.now, activities: []) //just a temporary value
+    @State var day : Day =  Day(date: getFormattedDate(), activities: []) //just a temporary value
     var body: some View {
         //TODO Scrollable
         VStack{
@@ -58,7 +58,7 @@ struct Daily: View {
 }
 
 struct Day: Codable{
-    var date: Date
+    var date: String
     var activities: [DailyItem] = LoadPreferences() //Need to associate these with the day
 }
 
@@ -106,14 +106,14 @@ func LoadData() -> [Day] {
     }else {
         //If we try to load and the file doesn't exist, try to initialize data first
         print("Making File")
-        let d : Day = Day(date: Date.now, activities: LoadPreferences())
+        let d : Day = Day(date: getFormattedDate(), activities: LoadPreferences())
         SaveData(data: d)
         return [d]
     }
 
 }
 
-func getDay(days: [Day], date: Date) -> Day!{//gets the day object associate with a specific date
+func getDay(days: [Day], date: String) -> Day!{//gets the day object associate with a specific date
     for day in days{
         if day.date == date{
             return day
@@ -123,7 +123,7 @@ func getDay(days: [Day], date: Date) -> Day!{//gets the day object associate wit
 }
 
 //Check if the day already exists
-func dayExists(days: [Day], date: Date) -> Bool{
+func dayExists(days: [Day], date: String) -> Bool{
     for day in days{
         if day.date == date{
             return true
@@ -132,7 +132,7 @@ func dayExists(days: [Day], date: Date) -> Bool{
     return false
 }
 
-func getIndexToRemove(days: [Day], date: Date) -> Int {
+func getIndexToRemove(days: [Day], date: String) -> Int {
     var index = 0
     for day in days{
         if day.date == date{
@@ -144,10 +144,11 @@ func getIndexToRemove(days: [Day], date: Date) -> Int {
 }
 
 
-func getFormattedDate() -> Date{
+func getFormattedDate() -> String{
     let df = DateFormatter()
     df.dateFormat = "yyyy-MM-dd"
-    let date : Date = df.date(from: df.string(from: Date.now))! //format date
+    let date : String = df.string(from: Date.now) //format date
+    
     //https://www.swiftyplace.com/blog/swift-date-formatting-10-steps-guide
     return date
 }
