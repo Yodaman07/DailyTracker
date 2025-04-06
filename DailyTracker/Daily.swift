@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct Daily: View {
-    @State var day : Day =  Day(date: getFormattedDate(), activities: []) //just a temporary value
+    @State var day : Day
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     var body: some View {
         //TODO Scrollable
+        
         VStack{
+            
+            Text(day.date)
+                .bold(true)
+                .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+            
             List($day.activities){ $data in
                 HStack{
                     Text($data.activity.wrappedValue)
@@ -39,7 +46,8 @@ struct Daily: View {
                     
                     
             }
-        }.onAppear{
+        }.onAppear() {
+//            print("REFRESHED")
             let allDayData: [Day] = LoadData()
 
             let date = getFormattedDate()
@@ -54,94 +62,75 @@ struct Daily: View {
             }
             
         } //load preferences every time view is loaded
-    }
-}
-
-struct Day: Codable{
-    var date: String
-    var activities: [DailyItem] = LoadPreferences() //Need to associate these with the day
-}
-
-
-func SaveData(data: Day){ //saving data from scratch
-
-//    print(String(data: encodedData, encoding: .utf8)!)
-//    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//    let jsonURL = documentsDirectory.appendingPathComponent("Data.json")
-    var dataToEncode : [Day] = [data]
-    let jsonURL = URL.documentsDirectory.appendingPathComponent("Data.json")
-
-    if FileManager.default.fileExists(atPath: jsonURL.path){
-        //If the file exists, get all of its data, and add a new Day element
-        dataToEncode = LoadData()
-        //Need to remove the old element with the same name
-        if dayExists(days: dataToEncode, date: getFormattedDate()){
-            let index = getIndexToRemove(days: dataToEncode, date: getFormattedDate())
-            print("Updating data at index " + String(index) )
-            dataToEncode.remove(at: index)
-        }else{print(Date.now)}
-            
-        dataToEncode.append(data) //add a new day
+        .background(colorScheme == .dark ? Color.black.opacity(0.2) : Color.white)
+        
+    
     }
     
-    //Regardless of if the file exists or not, we want to write either just the one val or the updated list to the file
-    let enc = JSONEncoder()
-    enc.outputFormatting = [.prettyPrinted, .sortedKeys]
-    let encodedData = try! enc.encode(dataToEncode)
-    try! encodedData.write(to: jsonURL)
 }
 
+struct HistoryView: View { //shows a collection of previous views
+    @State var d : [Day] = LoadData()
+    @State var date = Date()
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
 
-func LoadData() -> [Day] {
-    print("Loading Day Data")
-    let dec = JSONDecoder()
+    var df = DateFormatter()
+    @State var currentDay: Day =  Day(date: "0000-00-00", activities: []); //fake day
+//    @Environment(\.refresh) private var refresh
+    var body: some View {
+                NavigationSplitView{
+                    VStack{
+                        List(d){ dataaa in
+                            if (dataaa.date != getFormattedDate()){
+                                Button(dataaa.date){
+                                    print(dataaa.date)
+                                    currentDay = dataaa
+                                }.buttonStyle(.plain)
+                            }
+                        }
+                    }
 
-    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    let jsonURL = documentsDirectory.appendingPathComponent("Data.json")
-    
-    if FileManager.default.fileExists(atPath: jsonURL.path){
-        //Regular loading
-        let d = try! Data(contentsOf: jsonURL)
-        return try! dec.decode(Array<Day>.self, from: d)
-    }else {
-        //If we try to load and the file doesn't exist, try to initialize data first
-        print("Making File")
-        let d : Day = Day(date: getFormattedDate(), activities: LoadPreferences())
-        SaveData(data: d)
-        return [d]
+                }detail: {
+                    if (currentDay.date == "0000-00-00"){
+                        ContentUnavailableView("Please select a previous day to see its data", systemImage: "calendar")
+                    }else{
+                        
+                        //Basically copied from Daily
+                        VStack{
+                            Text(currentDay.date)
+                                .bold(true)
+                                .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                            
+                                List($currentDay.activities){ $data in
+                                    
+                                    HStack{
+                                        Text($data.activity.wrappedValue)
+                                            .font(.title3)
+                                            .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+                                        
+                                        Spacer()
+                                        if ($data.goal.wrappedValue){
+                                            HStack{
+                                                Text("Goal: ")
+                                                    .fontWeight(.bold)
+                                                Text(String($data.goalValue.wrappedValue) + " " + $data.goalUnits.wrappedValue)
+                                                    .font(.callout)
+                                            }
+                                            Spacer()
+                                        }
+                                        
+                                        Toggle(isOn: $data.complete){Text("Completed?")}
+                                            .padding(10)
+                                    }
+                                }
+                            
+                        }.background(colorScheme == .dark ? Color.black.opacity(0.2) : Color.white)
+                        
+                    }
+                }
     }
-
 }
 
-func getDay(days: [Day], date: String) -> Day!{//gets the day object associate with a specific date
-    for day in days{
-        if day.date == date{
-            return day
-        }
-    }
-    return nil
-}
-
-//Check if the day already exists
-func dayExists(days: [Day], date: String) -> Bool{
-    for day in days{
-        if day.date == date{
-            return true
-        }
-    }
-    return false
-}
-
-func getIndexToRemove(days: [Day], date: String) -> Int {
-    var index = 0
-    for day in days{
-        if day.date == date{
-            return index
-        }
-        index+=1
-    }
-    return index
-}
 
 
 func getFormattedDate() -> String{
@@ -154,6 +143,7 @@ func getFormattedDate() -> String{
 }
 
 #Preview {
-    Daily()
+    HistoryView()
+//    Daily(day:  Day(date: getFormattedDate(), activities: []))
 }
 

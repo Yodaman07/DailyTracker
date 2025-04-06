@@ -12,9 +12,9 @@ struct ContentView: View {
         
         NavigationSplitView {
             List{
-                NavigationLink("Today", destination: Daily())
+                NavigationLink("Today", destination: Daily(day: Day(date: getFormattedDate(), activities: [])))
                 
-                NavigationLink("Past", destination: Daily())
+                NavigationLink("Past", destination: HistoryView())
                 Spacer()
                     .frame(height: 20)
                 NavigationLink("Settings", destination: Settings())
@@ -24,14 +24,15 @@ struct ContentView: View {
                 
                     
                 NavigationLink {
-                    Daily()
+                    Daily(day: Day(date: getFormattedDate(), activities: []))
                 } label: {
                     Label("Account", systemImage: "person.circle")
                 }
 
                     
             }
-        } detail: {
+        }
+        detail: {
             ContentUnavailableView("Please select a menu option", systemImage: "doc.text.image.fill")
         }
         

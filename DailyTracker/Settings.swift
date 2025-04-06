@@ -66,25 +66,9 @@ struct Settings: View {
 
 
 
-func SavePreferences(data: [DailyItem]){
-    let enc = JSONEncoder()
-    enc.outputFormatting = .prettyPrinted
-    let data = try! enc.encode(data)
-    print(String(data: data, encoding: .utf8)!)
-    let jsonURL = URL.documentsDirectory.appendingPathComponent("Preferences.json")
-    
-    try! data.write(to: jsonURL)
-}
 
-func LoadPreferences() -> [DailyItem] {
-    let dec = JSONDecoder()
-    let jsonURL = URL.documentsDirectory.appendingPathComponent("Preferences.json")
-    let d = try! Data(contentsOf: jsonURL)
-    print("Loading")
-    return try! dec.decode(Array<DailyItem>.self, from: d)
-}
 
-struct DailyItem: Identifiable, Codable, Equatable {
+struct DailyItem: Identifiable, Codable, Equatable { //equitable means we can compare objects
     var id = UUID()
 //  var icon: String //system icon
 //https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI
