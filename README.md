@@ -18,4 +18,5 @@ A MacOS App to help track various daily activities.
 
 ### About
 Current Pre-Release Version: v.0.1-beta
+
 By: Ayaan Irshad
