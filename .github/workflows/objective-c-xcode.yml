@@ -19,6 +19,7 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: '16.2'  # Specify the required Xcode version here
+          code-sign-identity: '-'
         
       - name: Set Default Scheme
         run: |
