@@ -24,7 +24,7 @@ struct ContentView: View {
                 
                     
                 NavigationLink {
-                    Daily(day: Day(date: getFormattedDate(), activities: []))
+                    ContentUnavailableView("Oops, this page isn't done yet, but it is being worked on for future updates :)\n\nDaily Tracker v.0.1 beta - Ayaan Irshad", systemImage: "clock.badge.xmark.fill")
                 } label: {
                     Label("Account", systemImage: "person.circle")
                 }

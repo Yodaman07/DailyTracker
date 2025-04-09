@@ -18,7 +18,7 @@ struct Settings: View {
                     Text("Add Your Daily Activities Here")
                         .padding(100)
                 }else{
-                    List($dailyActivities, editActions: .delete){ $data in
+                    List($dailyActivities, editActions: .move){ $data in
                         HStack{
                             TextField("Rename Activity", text: $data.activity)
                             Toggle(isOn: $data.goal){Text("Has Goal")}
@@ -55,6 +55,7 @@ struct Settings: View {
             
         }.toolbar{
             Button("+"){
+                print("AAAA")
                 dailyActivities.append(DailyItem(activity: "New Activity", goal: false))
             } .padding(10)
         

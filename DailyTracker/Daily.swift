@@ -10,6 +10,7 @@ import SwiftUI
 struct Daily: View {
     @State var day : Day
     @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @State var showAlert = false;
     var body: some View {
         //TODO Scrollable
         
@@ -63,7 +64,23 @@ struct Daily: View {
             
         } //load preferences every time view is loaded
         .background(colorScheme == .dark ? Color.black.opacity(0.2) : Color.white)
-        
+        .toolbar{
+            Button("RELOAD"){
+                showAlert = true
+
+                
+            }.alert(isPresented: $showAlert){
+                Alert(title: Text("You are about to reload your activities. This may overwrite your current progress"),
+                      primaryButton: .default(Text("Continue")){
+                                let allDayData: [Day] = LoadData()
+                                let date = getFormattedDate()
+                                day = Day(date: date, activities: LoadPreferences()) //update view data
+                                SaveData(data: day)
+                    
+                                },
+                      secondaryButton: .cancel())
+            }
+        }
     
     }
     
@@ -137,13 +154,13 @@ func getFormattedDate() -> String{
     let df = DateFormatter()
     df.dateFormat = "yyyy-MM-dd"
     let date : String = df.string(from: Date.now) //format date
-    
+//    return "2025-04-07"
     //https://www.swiftyplace.com/blog/swift-date-formatting-10-steps-guide
     return date
 }
 
 #Preview {
-    HistoryView()
-//    Daily(day:  Day(date: getFormattedDate(), activities: []))
+//    HistoryView()
+    Daily(day:  Day(date: getFormattedDate(), activities: []))
 }
 

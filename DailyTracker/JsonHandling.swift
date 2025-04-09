@@ -70,9 +70,16 @@ func SavePreferences(data: [DailyItem]){
 }
 
 func LoadPreferences() -> [DailyItem] {
+    print("Loading Preferences")
     let dec = JSONDecoder()
     let jsonURL = URL.documentsDirectory.appendingPathComponent("Preferences.json")
-    let d = try! Data(contentsOf: jsonURL)
-    print("Loading")
-    return try! dec.decode(Array<DailyItem>.self, from: d)
+    if FileManager.default.fileExists(atPath: jsonURL.path){
+        
+        let d = try! Data(contentsOf: jsonURL)
+        return try! dec.decode(Array<DailyItem>.self, from: d)
+    }else{
+        let item = [DailyItem(activity: "New Activity", goal: false)]
+        SavePreferences(data: item)
+        return item
+    }
 }
