@@ -101,7 +101,10 @@ struct HistoryView: View { //shows a collection of previous views
                             if (dataaa.date != getFormattedDate()){
                                 Button(dataaa.date){
                                     print(dataaa.date)
-                                    currentDay = dataaa
+//                                    currentDay = dataaa
+                                    var newData = LoadData()
+                                    currentDay = newData[getIndexToRemove(days: newData, date: dataaa.date)]
+                                    d = LoadData()
                                 }.buttonStyle(.plain)
                             }
                         }
@@ -138,10 +141,27 @@ struct HistoryView: View { //shows a collection of previous views
                                         
                                         Toggle(isOn: $data.complete){Text("Completed?")}
                                             .padding(10)
+                                            
                                     }
                                 }
                             
                         }.background(colorScheme == .dark ? Color.black.opacity(0.2) : Color.white)
+                            .toolbar{
+                                Button("SAVE CHANGES"){
+                                    print("SAVINg")
+                                    SaveData(data: currentDay)
+                                    let allData = LoadData()
+                                    let i = getIndexToRemove(days: allData, date: currentDay.date)
+                                    currentDay = allData[i]
+                                    d = LoadData()
+                                }
+                                
+                                Button("LOAD SAVE"){
+                                    print("loAding Save")
+                                  
+                                }
+                                
+                            }
                         
                     }
                 }
@@ -160,7 +180,7 @@ func getFormattedDate() -> String{
 }
 
 #Preview {
-//    HistoryView()
-    Daily(day:  Day(date: getFormattedDate(), activities: []))
+    HistoryView()
+//    Daily(day:  Day(date: getFormattedDate(), activities: []))
 }
 

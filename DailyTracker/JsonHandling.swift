@@ -16,19 +16,24 @@ func SaveData(data: Day){ //saving data from scratch
 //    let jsonURL = documentsDirectory.appendingPathComponent("Data.json")
     var dataToEncode : [Day] = [data]
     let jsonURL = URL.documentsDirectory.appendingPathComponent("Data.json")
+    
 
     if FileManager.default.fileExists(atPath: jsonURL.path){
         //If the file exists, get all of its data, and add a new Day element
-        dataToEncode = LoadData()
+        dataToEncode = LoadData() // all data
         //Need to remove the old element with the same name
-        if dayExists(days: dataToEncode, date: getFormattedDate()){
-            let index = getIndexToRemove(days: dataToEncode, date: getFormattedDate())
+        if dayExists(days: dataToEncode, date: data.date){
+            let index = getIndexToRemove(days: dataToEncode, date: data.date)
             print("Updating data at index " + String(index) )
             dataToEncode.remove(at: index)
-        }else{print(Date.now)}
-            
-        dataToEncode.append(data) //add a new day
+            dataToEncode.insert(data, at: index) //add a new day
+        }else{
+            //Day doesn't exist
+            print(Date.now)
+            dataToEncode.append(data)
+        }
     }
+    print("SUCCESS")
     
     //Regardless of if the file exists or not, we want to write either just the one val or the updated list to the file
     let enc = JSONEncoder()
