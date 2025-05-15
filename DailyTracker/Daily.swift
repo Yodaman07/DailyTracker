@@ -148,17 +148,12 @@ struct HistoryView: View { //shows a collection of previous views
                         }.background(colorScheme == .dark ? Color.black.opacity(0.2) : Color.white)
                             .toolbar{
                                 Button("SAVE CHANGES"){
-                                    print("SAVINg")
+                                    print("SAVING CHANGES")
                                     SaveData(data: currentDay)
                                     let allData = LoadData()
                                     let i = getIndexToRemove(days: allData, date: currentDay.date)
                                     currentDay = allData[i]
                                     d = LoadData()
-                                }
-                                
-                                Button("LOAD SAVE"){
-                                    print("loAding Save")
-                                  
                                 }
                                 
                             }

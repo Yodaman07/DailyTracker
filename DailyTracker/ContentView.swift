@@ -24,7 +24,8 @@ struct ContentView: View {
                 
                     
                 NavigationLink {
-                    ContentUnavailableView("Oops, this page isn't done yet, but it is being worked on for future updates :)\n\nDaily Tracker v.0.1 beta - Ayaan Irshad", systemImage: "clock.badge.xmark.fill")
+//                    ContentUnavailableView("Oops, this page isn't done yet, but it is being worked on for future updates :)\n\nDaily Tracker v.0.1 beta - Ayaan Irshad", systemImage: "clock.badge.xmark.fill")
+                    Account()
                 } label: {
                     Label("Account", systemImage: "person.circle")
                 }

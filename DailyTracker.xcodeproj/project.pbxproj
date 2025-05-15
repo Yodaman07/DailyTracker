@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D3820BE02DB0750D00DCFF99 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D3820BDF2DB0750D00DCFF99 /* GoogleSignIn */; };
+		D3820BE22DB0750D00DCFF99 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D3820BE12DB0750D00DCFF99 /* GoogleSignInSwift */; };
+		D3820C0C2DB1552B00DCFF99 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D3820C0B2DB1552B00DCFF99 /* FirebaseAuth */; };
+		D3820C0E2DB1552B00DCFF99 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = D3820C0D2DB1552B00DCFF99 /* FirebaseCore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D38142122D92513C002E9D7A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,9 +36,22 @@
 		D381421B2D92513C002E9D7A /* DailyTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D3820BE72DB0796200DCFF99 /* Exceptions for "DailyTracker" folder in "DailyTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D38141FF2D92513B002E9D7A /* DailyTracker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D38142022D92513B002E9D7A /* DailyTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D3820BE72DB0796200DCFF99 /* Exceptions for "DailyTracker" folder in "DailyTracker" target */,
+			);
 			path = DailyTracker;
 			sourceTree = "<group>";
 		};
@@ -52,6 +72,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3820BE22DB0750D00DCFF99 /* GoogleSignInSwift in Frameworks */,
+				D3820C0C2DB1552B00DCFF99 /* FirebaseAuth in Frameworks */,
+				D3820C0E2DB1552B00DCFF99 /* FirebaseCore in Frameworks */,
+				D3820BE02DB0750D00DCFF99 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +136,10 @@
 			);
 			name = DailyTracker;
 			packageProductDependencies = (
+				D3820BDF2DB0750D00DCFF99 /* GoogleSignIn */,
+				D3820BE12DB0750D00DCFF99 /* GoogleSignInSwift */,
+				D3820C0B2DB1552B00DCFF99 /* FirebaseAuth */,
+				D3820C0D2DB1552B00DCFF99 /* FirebaseCore */,
 			);
 			productName = DailyTracker;
 			productReference = D38142002D92513B002E9D7A /* DailyTracker.app */;
@@ -195,6 +223,10 @@
 			);
 			mainGroup = D38141F72D92513B002E9D7A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D3820BDE2DB0750D00DCFF99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				D3820C0A2DB1552B00DCFF99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D38142012D92513B002E9D7A /* Products */;
 			projectDirPath = "";
@@ -403,6 +435,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyTracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -438,6 +471,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyTracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -565,6 +599,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D3820BDE2DB0750D00DCFF99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		D3820C0A2DB1552B00DCFF99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D3820BDF2DB0750D00DCFF99 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D3820BDE2DB0750D00DCFF99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		D3820BE12DB0750D00DCFF99 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D3820BDE2DB0750D00DCFF99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		D3820C0B2DB1552B00DCFF99 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D3820C0A2DB1552B00DCFF99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		D3820C0D2DB1552B00DCFF99 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D3820C0A2DB1552B00DCFF99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D38141F82D92513B002E9D7A /* Project object */;
 }
